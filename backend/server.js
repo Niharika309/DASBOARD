@@ -15,11 +15,12 @@ connectDB();
 const app = express();
 
 // Middlewares
-app.use(express.json());
+// CORS - Simple configuration to allow all origins
 app.use(cors());
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-}
+
+app.use(express.json());
+// Morgan logging for all environments (can be disabled in production if needed)
+app.use(morgan('dev'));
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -30,8 +31,9 @@ app.get('/', (req, res) => {
     res.send('API is running...');
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+    console.log(`CORS enabled for all origins`);
 });
